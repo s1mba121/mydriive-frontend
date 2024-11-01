@@ -5,7 +5,10 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="first-section">
-                <div className="navbar-logo">MyDrive</div>
+                <div className="navbar-logo">
+                    <div className="navbar-logo-img"></div>
+                    MyDriive
+                </div>
                 <div className="navbar-search">
                     <div className="search-logo">
                         <svg

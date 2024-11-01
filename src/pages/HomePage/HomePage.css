@@ -25,4 +25,5 @@
 
     /* box-shadow: #00000012 0 0 10px; */
     border-radius: 20px;
+    z-index: 1;
 }

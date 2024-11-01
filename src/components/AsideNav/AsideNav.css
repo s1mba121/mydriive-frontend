@@ -12,7 +12,7 @@ aside {
 .add-button-aside {
     display: flex;
     height: 56px;
-    padding: 16px 19.8px 16px 16px;
+    /* padding: 16px 19.8px 16px 16px; */
     justify-content: center;
     align-items: center;
     gap: 12px;
@@ -33,6 +33,13 @@ aside {
     font-weight: 500;
     line-height: 20px; /* 142.857% */
     margin-bottom: 20px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-button-aside:hover {
+    background-color: #E9EEF6;
 }
 
 .button-aside {
@@ -68,4 +75,33 @@ aside {
 
 .svg-aside {
     margin-right: 10px;
+}
+
+.storage-info {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.storage-bar-container {
+    background-color: #d3d3d3; /* Цвет пустой части (серый) */
+    border-radius: 4px; /* Скругление краев */
+    height: 4px; /* Высота полоски */
+    overflow: hidden; /* Скрыть лишнюю часть */
+    margin-left: 15px;
+}
+
+.storage-bar-filled {
+    background-color: #C2E7FF; /* Цвет заполненной части */
+    height: 100%; /* Высота соответствует контейнеру */
+    transition: width 0.3s ease; /* Анимация изменения ширины */
+}
+
+.storage-bar-empty {
+    height: 100%; /* Высота соответствует контейнеру */
+}
+
+.storage-text {
+    margin-top: 5px; /* Отступ сверху */
+    color: #1C274C; /* Цвет текста */
+    font-size: 14px; /* Размер шрифта */
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
     Route,
@@ -11,15 +11,40 @@ import HomePage from "./pages/HomePage/HomePage";
 // import BookingPage from "./pages/BookingPage";
 // import SubscriptionPage from "./pages/SubscriptionPage";
 // import NotFoundPage from "./pages/NotFoundPage";
+import AuthPage from "./pages/Auth/AuthPage";
 
 const AppRoutes = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        // Инициализируем состояние из localStorage
+        return !!localStorage.getItem("token");
+    });
+
+    useEffect(() => {
+        // Это действие можно оставить, если нужно что-то делать при изменении токена
+        const token = localStorage.getItem("token");
+        if (token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, []);
 
     return (
         <Router>
             <Routes>
                 {/* Главная страница */}
-                <Route path="/drive/*" element={<HomePage />} />
+                <Route
+                    path="/auth"
+                    element={<AuthPage setIsLoggedIn={setIsLoggedIn} />}
+                />
+
+                {/* Страница drive, доступная только для авторизованных пользователей */}
+                <Route
+                    path="/drive/*"
+                    element={
+                        isLoggedIn ? <HomePage /> : <Navigate to="/auth" />
+                    }
+                />
 
                 {/* Страница регистрации */}
                 {/* <Route path="/register" element={<RegistrationPage />} /> */}

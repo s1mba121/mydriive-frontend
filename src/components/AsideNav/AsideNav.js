@@ -1,12 +1,99 @@
 // src/components/AsideNav/AsideNav.js
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import axios from "axios"; // Не забудьте установить axios
+import UploadProgress from "../UploadProgress/UploadProgress";
 import "./AsideNav.css";
 
-const AsideNav = () => {
+const AsideNav = ({ storageLimit, usedStorage }) => {
+    const [uploadProgress, setUploadProgress] = useState(null);
+    const [source, setSource] = useState(null); // источник для отмены загрузки
+
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const userId = localStorage.getItem("userId");
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("userId", userId);
+
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        setSource(source);
+
+        try {
+            await axios.post(
+                "http://10.31.179.74:3000/files/upload",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round(
+                            (progressEvent.loaded * 100) / progressEvent.total
+                        );
+                        setUploadProgress({ file, progress: percentCompleted });
+                    },
+                    cancelToken: source.token,
+                }
+            );
+
+            console.log("Файл успешно загружен");
+            setUploadProgress(null); // Убираем виджет после завершения
+            window.location.reload();
+        } catch (error) {
+            if (axios.isCancel(error)) {
+                console.log("Загрузка отменена");
+            } else {
+                console.error("Ошибка загрузки файла:", error);
+            }
+            setUploadProgress(null);
+        }
+    };
+
+    const handleCancel = () => {
+        if (source) {
+            source.cancel("Отмена загрузки пользователем");
+            setUploadProgress(null);
+        }
+    };
+
+    const handlePause = () => {
+        if (source) {
+            source.cancel("Пауза загрузки");
+            setUploadProgress((prev) => ({ ...prev, paused: true }));
+        }
+    };
+
+    const handleResume = () => {
+        if (uploadProgress && uploadProgress.paused) {
+            handleFileChange({ target: { files: [uploadProgress.file] } });
+            setUploadProgress((prev) => ({ ...prev, paused: false }));
+        }
+    };
+
     return (
         <aside>
-            <button className="add-button-aside">Создать</button>
+            <label className="add-button-aside">
+                Загрузить
+                <input
+                    type="file"
+                    onChange={handleFileChange}
+                    style={{ display: "none" }} // Скрываем элемент input
+                />
+            </label>
+            {uploadProgress && (
+                <UploadProgress
+                    file={uploadProgress.file}
+                    progress={uploadProgress.progress}
+                    onCancel={handleCancel}
+                    onPause={handlePause}
+                    onResume={handleResume}
+                />
+            )}
             <NavLink
                 to="/drive/home"
                 className={({ isActive }) =>
@@ -370,6 +457,18 @@ const AsideNav = () => {
                     </>
                 )}
             </NavLink>
+            <div className="storage-info">
+                <div className="storage-bar-container">
+                    <div
+                        className="storage-bar-filled"
+                        style={{
+                            width: `${(usedStorage / storageLimit) * 100}%`,
+                        }}
+                    />
+                    <div className="storage-bar-empty" />
+                </div>
+                <p className="storage-text">{`${(usedStorage / 1024 ** 3).toFixed(2)} ГБ из ${(storageLimit / 1024 ** 3).toFixed(2)} ГБ`}</p>
+            </div>
         </aside>
     );
 };

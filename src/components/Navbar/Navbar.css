@@ -4,13 +4,18 @@
     align-items: center;
     height: 60px;
     background-color: rgb(248, 250, 253);
+    padding-top: 5px;
 }
 
 .navbar-logo {
     font-size: 24px;
     font-weight: bold;
     margin-left: 30px;
-    margin-right: 120px;
+    margin-right: 52px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .first-section, .navbar-search {
@@ -87,4 +92,13 @@
     border-radius: 50%;
     background: #E9EEF6;
     opacity: 1;
+}
+
+.navbar-logo-img {
+    width: 50px;
+    height: 50px;
+
+    background: url(/public/Untitled-3.png) no-repeat center center;
+    background-size: cover;
+    margin-right: 15px;
 }
