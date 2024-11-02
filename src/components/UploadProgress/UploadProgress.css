@@ -1,0 +1,48 @@
+/* src/components/UploadProgress.css */
+.upload-progress {
+    position: fixed;
+    bottom: 20px;
+    left: 10px;
+    width: 190px;
+    padding: 15px;
+    background-color: #fff;
+    color: #1f1f1f;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #555;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.progress {
+    height: 4px;
+    background-color: #C2E7FF;
+    border-radius: 5px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+button {
+    /* background-color: #444; */
+    color: white;
+    background: none;
+    border: none;
+    /* padding: 5px; */
+    /* border-radius: 4px; */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    /* background-color: #666; */
+    scale: 1.01;
+}
