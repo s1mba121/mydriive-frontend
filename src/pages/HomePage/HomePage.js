@@ -37,6 +37,7 @@ const HomePage = () => {
                 <Navbar
                     email={userData ? userData.email : null}
                     username={userData ? userData.username : null}
+                    avatar={userData ? userData.avatar : null}
                 />
             </header>
             <div className="home-content">

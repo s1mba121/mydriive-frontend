@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 
-const Navbar = ({ email, username }) => {
+const Navbar = ({ email, username, avatar }) => {
     const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
 
     const toggleProfileMenu = () => {
@@ -70,18 +70,22 @@ const Navbar = ({ email, username }) => {
                         </g>
                     </svg>
                 </div>
-                <div onClick={toggleProfileMenu} className="navbar-profile">
+                <div onClick={toggleProfileMenu}
+                    className="navbar-profile"
+                    style={{
+                        backgroundImage: `${avatar ? 'url("' + avatar + '")' : "none"}`,
+                    }}>
                     {username ? username[0] : "?"}
                 </div>
             </div>
             {isProfileMenuOpen && (
-                <ProfileMenu email={email} username={username} />
+                <ProfileMenu email={email} username={username} avatar={avatar} />
             )}
         </nav>
     );
 };
 
-const ProfileMenu = ({ email, username }) => (
+const ProfileMenu = ({ email, username, avatar }) => (
     <div className="profile-menu">
         <div className="profile-email">{email}</div>
         <div className="profile-header">
@@ -90,7 +94,10 @@ const ProfileMenu = ({ email, username }) => (
                 alt="Avatar"
                 className="profile-avatar-large"
             /> */}
-            <div className="profile-avatar-large">
+            <div className="profile-avatar-large"
+                style={{
+                    backgroundImage: `${avatar ? 'url("' + avatar + '")' : "none"}`,
+                }}>
                 {username ? username[0] : "?"}
             </div>
             <p className="profile-username">Привет, {username}</p>
