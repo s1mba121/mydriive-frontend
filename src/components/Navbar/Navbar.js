@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 
-const Navbar = ({ email, username, avatar }) => {
+const Navbar = ({ email, username, avatarURL }) => {
     const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
-
     const toggleProfileMenu = () => {
         setProfileMenuOpen(!isProfileMenuOpen);
     };
@@ -73,19 +72,21 @@ const Navbar = ({ email, username, avatar }) => {
                 <div onClick={toggleProfileMenu}
                     className="navbar-profile"
                     style={{
-                        backgroundImage: `${avatar ? 'url("' + avatar + '")' : "none"}`,
+                        backgroundImage: avatarURL ? `url("${avatarURL}")` : `none`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover"
                     }}>
-                    {username ? username[0] : "?"}
+                    {avatarURL ? "" : (username ? username[0] : "?")}
                 </div>
             </div>
             {isProfileMenuOpen && (
-                <ProfileMenu email={email} username={username} avatar={avatar} />
+                <ProfileMenu email={email} username={username} avatarURL={avatarURL} />
             )}
         </nav>
     );
 };
 
-const ProfileMenu = ({ email, username, avatar }) => (
+const ProfileMenu = ({ email, username, avatarURL }) => (
     <div className="profile-menu">
         <div className="profile-email">{email}</div>
         <div className="profile-header">
@@ -96,9 +97,11 @@ const ProfileMenu = ({ email, username, avatar }) => (
             /> */}
             <div className="profile-avatar-large"
                 style={{
-                    backgroundImage: `${avatar ? 'url("' + avatar + '")' : "none"}`,
+                    backgroundImage: avatarURL ? `url("${avatarURL}")` : "none",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover"
                 }}>
-                {username ? username[0] : "?"}
+                {avatarURL ? "" : (username ? username[0] : "?")}
             </div>
             <p className="profile-username">Привет, {username}</p>
         </div>

@@ -37,7 +37,7 @@ const HomePage = () => {
                 <Navbar
                     email={userData ? userData.email : null}
                     username={userData ? userData.username : null}
-                    avatar={userData ? userData.avatar : null}
+                    avatarURL={userData ? userData.avatarURL : "https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg?cs=srgb&dl=pexels-sagui-andrea-200115-618833.jpg&fm=jpg"}
                 />
             </header>
             <div className="home-content">

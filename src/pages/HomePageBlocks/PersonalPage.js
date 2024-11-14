@@ -1,6 +1,7 @@
 // src/pages/PersonalPage.js
 import React, { useEffect, useState } from "react";
-import { fetchUserFiles, isImageFile, getFilePreview } from "../../services/fileService";
+import axios from 'axios';
+import { fetchUserFiles, getImagePreview } from "../../services/fileService";
 import "./PersonalPage.css";
 
 const PersonalPage = () => {
@@ -15,17 +16,7 @@ const PersonalPage = () => {
         };
         getFiles();
     }, [userId, token]);
-    /*
-    const [videos, setThumbnail] = useState(null);
 
-    useEffect(() => {
-        const getVideoThumbnail = async () => {
-            const imageObjectURL = await fetchUserFiles(userId, "video.mp4", token);
-            setThumbnail(imageObjectURL);
-        }
-        getVideoThumbnail();
-    }, [userId, "video.mp4", token]);
-    */
     return (
         <div className="personal-page">
             {files.length > 0 ? (
@@ -35,7 +26,11 @@ const PersonalPage = () => {
                             key={file.id}
                             className="file-card"
                             style={{
-                                backgroundImage: `url("${getFilePreview(file)}")`,
+                                backgroundImage: `url("http://localhost:3000/api/files/${userId}/${file.name}")`,
+                                backgroundPosition: "center",
+                                // backgroundSize: "90%",
+                                backgroundRepeat: "no-repeat",
+                                padding: ""
                             }}
                         >
                             <strong>{file.name}</strong>
